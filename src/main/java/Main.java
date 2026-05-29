@@ -1,11 +1,12 @@
 import model.Account;
+import service.BankService;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Account> accounts=new ArrayList<>();
+        BankService bankservice=new BankService();
         Scanner sc=new Scanner(System.in);
 
         while(true){
@@ -33,63 +34,30 @@ public class Main {
                     System.out.println("Enter Initial Balance: ");
                     double balance=sc.nextDouble();
 
-                    Account newAccount=new Account(accNo,name,balance);
-                    accounts.add(newAccount);
-
-                    System.out.println("Account created successfully.");
+                    bankservice.createAccount(accNo,name,balance);
                     break;
 
                 case 2:
-                    if(accounts.isEmpty()){
-                        System.out.println("No accounts found.");
-                    }else{
-                        for(Account acc:accounts){
-                            acc.displayAccountInfo();
-                        }
-                    }
+                    bankservice.viewAllAccounts();
                     break;
 
                 case 3:
                     System.out.println("Enter Account Number: ");
                     int depositAccNo=sc.nextInt();
 
-                    Account depositAccount=null;
+                    System.out.println("Enter amount: ");
+                    double depositAmount=sc.nextDouble();
 
-                    for(Account acc: accounts){
-                        if(acc.getAccountNumber()==depositAccNo){
-                            depositAccount=acc;
-                            break;
-                        }
-                    }
-                    if(depositAccount==null){
-                        System.out.println("Account not found.");
-                    }
-                    else{
-                        System.out.println("Enter amount to deposit: ");
-                        double amount=sc.nextDouble();
-                        depositAccount.deposit(amount);
-                    }
+                    bankservice.depositMoney(depositAccNo,depositAmount);
                     break;
 
                 case 4:
                     System.out.println("Enter Account Number: ");
                     int withdrawAccountNo=sc.nextInt();
-                    Account withdrawAccount=null;
+                    System.out.println("Enter Amount: ");
+                    double withdrawAmount=sc.nextDouble();
 
-                    for(Account acc: accounts){
-                        if(acc.getAccountNumber()==withdrawAccountNo){
-                            withdrawAccount=acc;
-                            break;
-                        }
-                    }
-                    if(withdrawAccount==null){
-                        System.out.println("Account not found.");
-                    }
-                    else{
-                        System.out.println("Enter amount to withdraw: ");
-                        double amount=sc.nextDouble();
-                        withdrawAccount.withdraw(amount);
-                    }
+                    bankservice.withdrawMoney(withdrawAccountNo,withdrawAmount);
                     break;
 
                 case 5:
@@ -99,47 +67,16 @@ public class Main {
                     System.out.println("Enter Receiver Account Number: ");
                     int receiverAccNo=sc.nextInt();
 
-                    Account sender=null;
-                    Account receiver=null;
+                    System.out.println("Enter Amount: ");
+                    double transferAmount=sc.nextDouble();
 
-                    for(Account acc:accounts){
-                        if(acc.getAccountNumber()==senderAccNo){
-                            sender=acc;
-                        }
-                        if(acc.getAccountNumber()==receiverAccNo){
-                            receiver=acc;
-                        }
-                    }
-                    if(sender==null||receiver==null){
-                        System.out.println("Invalid account number: ");
-                    }else{
-                        System.out.println("Enter amount to transfer: ");
-                        double amount=sc.nextDouble();
-                        boolean success=sender.withdraw(amount);
-
-                        if(success){
-                            receiver.deposit(amount);
-                            System.out.println("Money transferred successfully.");
-                        }
-                    }
+                    bankservice.transferMoney(senderAccNo,receiverAccNo,transferAmount);
                     break;
 
                 case 6:
                     System.out.println("Enter Account Number: ");
                     int transactionAccNo=sc.nextInt();
-                    Account transactionAccount=null;
-                    for(Account acc: accounts){
-                        if(acc.getAccountNumber()==transactionAccNo){
-                            transactionAccount=acc;
-                            break;
-                        }
-                    }
-                    if(transactionAccount==null){
-                        System.out.println("Account not found.");
-                    }
-                    else{
-                        transactionAccount.displayTransactions();
-                    }
+                    bankservice.viewTransactions(transactionAccNo);
                     break;
 
                 case 7:
