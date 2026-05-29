@@ -14,7 +14,9 @@ public class Main {
             System.out.println("2. View All Accounts");
             System.out.println("3. Deposit Money");
             System.out.println("4. Withdraw Money");
-            System.out.println("5. Exit");
+            System.out.println("5. Transfer Money");
+            System.out.println("6. View Transaction History");
+            System.out.println("7. Exit");
 
             System.out.println("\nEnter your choice: ");
             int choice=sc.nextInt();
@@ -91,6 +93,56 @@ public class Main {
                     break;
 
                 case 5:
+                    System.out.println("Enter Sender Account Number: ");
+                    int senderAccNo=sc.nextInt();
+
+                    System.out.println("Enter Receiver Account Number: ");
+                    int receiverAccNo=sc.nextInt();
+
+                    Account sender=null;
+                    Account receiver=null;
+
+                    for(Account acc:accounts){
+                        if(acc.getAccountNumber()==senderAccNo){
+                            sender=acc;
+                        }
+                        if(acc.getAccountNumber()==receiverAccNo){
+                            receiver=acc;
+                        }
+                    }
+                    if(sender==null||receiver==null){
+                        System.out.println("Invalid account number: ");
+                    }else{
+                        System.out.println("Enter amount to transfer: ");
+                        double amount=sc.nextDouble();
+                        boolean success=sender.withdraw(amount);
+
+                        if(success){
+                            receiver.deposit(amount);
+                            System.out.println("Money transferred successfully.");
+                        }
+                    }
+                    break;
+
+                case 6:
+                    System.out.println("Enter Account Number: ");
+                    int transactionAccNo=sc.nextInt();
+                    Account transactionAccount=null;
+                    for(Account acc: accounts){
+                        if(acc.getAccountNumber()==transactionAccNo){
+                            transactionAccount=acc;
+                            break;
+                        }
+                    }
+                    if(transactionAccount==null){
+                        System.out.println("Account not found.");
+                    }
+                    else{
+                        transactionAccount.displayTransactions();
+                    }
+                    break;
+
+                case 7:
                     System.out.println("Thank you for using Banking System");
                     sc.close();
                     return;

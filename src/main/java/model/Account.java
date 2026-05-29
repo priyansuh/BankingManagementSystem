@@ -1,4 +1,5 @@
 package model;
+import java.util.ArrayList;
 
 public class Account {
 
@@ -7,11 +8,14 @@ public class Account {
     private String accountHolderName;
     private double balance;
 
+    private ArrayList<Transaction> transactions;
+
     public Account(int accountNumber, String accountHolderName, double balance) {
 
         this.accountNumber = accountNumber;
         this.accountHolderName = accountHolderName;
         this.balance = balance;
+        transactions=new ArrayList<>();
     }
     public void deposit(double amount){
         if(amount<=0){
@@ -19,19 +23,34 @@ public class Account {
             return;
         }
         balance+=amount;
+        transactions.add(new Transaction("Deposit",amount));
         System.out.println(amount+" deposited successfully.");
     }
 
-    public void withdraw(double amount){
+    public boolean withdraw(double amount){
         if(amount<=0){
             System.out.println("Invalid amount.");
-            return;
+            return false;
         }
         if(amount>balance){
             System.out.println("Insufficient balance ! Try again.");
+            return false;
         }
         balance-=amount;
+        transactions.add(new Transaction("withdraw",amount));
         System.out.println(amount+" withdrawn successfully.");
+        return true;
+    }
+
+    public void displayTransactions(){
+        System.out.println("\n===== TRANSACTION HISTORY =====");
+        if(transactions.isEmpty()){
+            System.out.println("No transactions found.");
+        }else{
+            for(Transaction t:transactions){
+                t.displayTransaction();
+            }
+        }
     }
 
     public void displayAccountInfo(){
