@@ -1,7 +1,9 @@
 package model;
 import java.util.ArrayList;
+import exception.InsufficientBalanceException;
 
-public class Account {
+public class Account implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
 
     //structure (private so that other classes cannot directly modify balance)
     private int accountNumber;
@@ -27,14 +29,13 @@ public class Account {
         System.out.println(amount+" deposited successfully.");
     }
 
-    public boolean withdraw(double amount){
+    public boolean withdraw(double amount) throws InsufficientBalanceException{
         if(amount<=0){
             System.out.println("Invalid amount.");
             return false;
         }
         if(amount>balance){
-            System.out.println("Insufficient balance ! Try again.");
-            return false;
+            throw new InsufficientBalanceException("Insufficient balance !");
         }
         balance-=amount;
         transactions.add(new Transaction("withdraw",amount));

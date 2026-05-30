@@ -1,7 +1,8 @@
 package model;
 import java.time.LocalDateTime;
 
-public class Transaction {
+public class Transaction implements java.io.Serializable{
+    private static final long serialVersionUID = 1L;
     private String type;
     private double amount;
     private LocalDateTime dateTime;
