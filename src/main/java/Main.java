@@ -24,6 +24,11 @@ public class Main {
 
             switch(choice){
                 case 1:
+                    System.out.println("Select Account Type:");
+                    System.out.println("1. Savings Account");
+                    System.out.println("2. Current Account");
+                    int accountType = sc.nextInt();
+
                     System.out.println("Enter Account Number: ");
                     int accNo=sc.nextInt();
                     sc.nextLine();
@@ -34,7 +39,7 @@ public class Main {
                     System.out.println("Enter Initial Balance: ");
                     double balance=sc.nextDouble();
 
-                    bankservice.createAccount(accNo,name,balance);
+                    bankservice.createAccount(accNo,name,balance,accountType);
                     break;
 
                 case 2:

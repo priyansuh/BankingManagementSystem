@@ -72,5 +72,11 @@ public class Account implements java.io.Serializable {
     public double getBalance(){
         return balance;
     }
+    protected void setBalance(double balance){
+        this.balance=balance;
+    }
+    protected void addTransaction(String type, double amount) {
+        transactions.add(new Transaction(type, amount));
+    }
 
 }

@@ -3,6 +3,9 @@ package service;
 import model.Account;
 
 import java.util.ArrayList;
+
+import model.CurrentAccount;
+import model.SavingsAccount;
 import util.FileManager;
 
 import exception.InsufficientBalanceException;
@@ -16,8 +19,19 @@ public class BankService {
 
     }
 
-    public void createAccount(int accNo, String name, double balance) {
-        Account newAccount = new Account(accNo, name, balance);
+    public void createAccount(int accNo, String name, double balance, int accountType) {
+        for (Account acc : accounts) {
+            if (acc.getAccountNumber() == accNo) {
+                System.out.println("Account number already exists.");
+                return;
+            }
+        }
+        Account newAccount;
+        if (accountType == 1) {
+            newAccount = new SavingsAccount(accNo, name, balance);
+        } else {
+            newAccount = new CurrentAccount(accNo, name, balance);
+        }
         accounts.add(newAccount);
         FileManager.saveAccounts(accounts);
         System.out.println("Account created successfully.");
